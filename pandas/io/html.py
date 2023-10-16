@@ -517,8 +517,11 @@ class _HtmlFrameParser:
                     href = self._href_getter(td)
                     text = (text, href)
                 rowspan = int(self._attr_getter(td, "rowspan") or 1)
-                colspan = int(self._attr_getter(td, "colspan") or 1)
-
+                try:
+                    colspan = int(self._attr_getter(td, "colspan") or 1)
+                except ValueError as e:
+                    colspan = 1
+                    
                 for _ in range(colspan):
                     texts.append(text)
                     if rowspan > 1:
